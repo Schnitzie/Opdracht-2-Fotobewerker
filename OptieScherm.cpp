@@ -24,29 +24,46 @@ OptieScherm::OptieScherm( Screen* parent )
 
 	//maak een label die andere widgets straks bevat, en een achtergrondkleur heeft
 	Label* backgroundLabel;
-	backgroundLabel = new Label(0, 0, scrWidth, scrHeight, NULL);
+	backgroundLabel = new Label(0, 0, scrWidth, scrHeight, NULL, "", 0x9C0000, font);
+
 	//stel achtergrondkleur in
+	this->achtergrondKleur = 0xE0E0E0;
 
 	//maak rode knop
-	this->roodLabel = new Label(20,30, 60, 40, backgroundLabel);
+	this->roodLabel = new Label(20,30, 60, 40, backgroundLabel, "Rood", 0x000000, font);
 	roodLabel->setSkin( skin );
+	roodLabel->setPaddingTop(10);
+	roodLabel->setPaddingLeft(12);
 	this->kleurLabels.add( roodLabel );	//voeg toe aan vector
 
 	//maak groene knop
+	this->groenLabel = new Label(90,30, 60, 40, backgroundLabel, "Groen", 0x000000, font);
+	groenLabel->setSkin( skin );
+	groenLabel->setPaddingTop(10);
+	groenLabel->setPaddingLeft(12);
+	this->kleurLabels.add( groenLabel );	//voeg toe aan vector
 
 	//maak blauwe knop
+	this->blauwLabel = new Label(160,30, 60, 40, backgroundLabel, "Blauw", 0x000000, font);
+	blauwLabel->setSkin( skin );
+	blauwLabel->setPaddingTop(10);
+	blauwLabel->setPaddingLeft(12);
+	this->kleurLabels.add( blauwLabel );	//voeg toe aan vector
 
 
 	//stel grootte plaatje in m.b.v. editbox
 
 	//stel naam plaatje in m.b.v. editbocx
-	this->editBox = new EditBox(100, 100, 100, 20, backgroundLabel  );
-	this->editBox->setSkin( skin );
+	this->editNameBox = new EditBox(180, 80, 60, 40, backgroundLabel);
+	this->editNameBox->setSkin(skin);
+
+	this->setMain(backgroundLabel);
 }
 
 OptieScherm::~OptieScherm()
 {
 	//verwijder objecten van deze klasse
+	delete this->getMain();
 }
 
 
@@ -62,25 +79,42 @@ int OptieScherm::getAchtergrondOptie()
 const BasicString<char> OptieScherm::getImagetekst()
 {
 	//verander editBox naar jouw editboxs
-	return this->editBox->getCaption(); //caption is de text in een editbox
+	return this->editNameBox->getCaption(); //caption is de text in een editbox
 }
 
+void OptieScherm::toepassen() {
 
+}
+
+void OptieScherm::show() {
+	this->Screen::show();
+}
 
 void OptieScherm::keyPressEvent(int keyCode, int nativeCode)
 {
-	//laat bij MAK_FIRE knop indrukken de parent (FotoScherm dus) weer zien
+	//bij indrukken van de MAK_FIRE toets, laat hoofdscherm zien
+	if(keyCode == MAK_FIRE)
+	{
+		this->parent->show();
+	}
 }
 
 void OptieScherm::pointerPressEvent(MAPoint2d point)
 {
 	//doorloop alle kleurlabels om selectie in te stellen
-	//for( ... )
-	//{
-		//kijk of label in het touch-punt valt
+	for(int i = 0; i < this->kleurLabels.size(); i++) {
+		Label* label = this->kleurLabels[i];
 
-		//niet in touch punt? deselect!
-	//}
+		Point p;
+		p.set(point.x, point.y);
+
+		if(label->contains(p)) {
+			label->setSelected(true);
+		}
+		else {
+			label->setSelected(false);
+		}
+	}
 
 
 	//behandel de editbox bij selecteren (touch), verander de editBox naar je eigen editbox(en)

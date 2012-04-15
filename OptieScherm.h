@@ -36,20 +36,25 @@ private:
 	Label* groenLabel;
 	Label* blauwLabel;
 
-	//todo: voeg editboxen en waardes toe die opgeslagen moeten worden
-	EditBox* editBox;
+	EditBox* editNameBox;
 
 	int achtergrondKleur;
+	const BasicString<char> tekst;
+
+	int imageHoogte;
+	int imageBreedte;
 
 public:
 	OptieScherm( Screen* parent );
 	virtual ~OptieScherm();
 
+	void show();
+	void toepassen();
 	void keyPressEvent(int keyCode, int nativeCode);
 	void pointerPressEvent(MAPoint2d point);
 
 	int getAchtergrondOptie();
-	const BasicString<char>getImagetekst(); //geeft text van editbox terug
+	const BasicString<char> getImagetekst(); //geeft text van editbox terug
 };
 
 #endif /* OPTIESCHERM_H_ */
