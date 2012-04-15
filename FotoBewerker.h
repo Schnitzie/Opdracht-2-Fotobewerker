@@ -32,7 +32,7 @@ private:
 public:
 	FotoBewerker();
 	virtual ~FotoBewerker();
-
+	void showFotoScherm();
 	void keyPressEvent( int keyCode, int nativeCode );
 };
 

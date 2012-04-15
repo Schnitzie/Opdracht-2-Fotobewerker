@@ -12,18 +12,23 @@ FotoScherm::FotoScherm()
 	//het optiescherm
 	this->optieScherm = new OptieScherm( this );
 
-
 	//bepaal grootte van het scherm
+	MAExtent screenSize = maGetScrSize();
+	int scrWidth = EXTENT_X(screenSize);
+	int scrHeight = EXTENT_Y(screenSize);
 
 	//standaard font en grafisch uiterlijk (uit de resource file res.lst)
 	Font* font = new MAUI::Font(RES_FONT);
 	WidgetSkin* skin = new WidgetSkin( RES_SELECTED, RES_UNSELECTED, 16, 32, 16, 32, false, false );
 
 	//maak een label die andere widgets straks bevat, en een achtergrondkleur heeft
+	this->achtergrondLabel = new Label(0,0, scrWidth, scrHeight, NULL);
 
 	//maak een plaatje (laden uit de resource file res.lst) en voeg label als parent toe
 
+
 	//maak tekst bij het plaatje met een label
+	this->imageTekst = new Label(0, 0, 60, 40, achtergrondLabel, "My Label", 0x000000, font);
 
 	//stel dit scherm in als het main scherm, met achtergrondlabel als de basis widget
 	this->setMain( this->achtergrondLabel );

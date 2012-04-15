@@ -37,6 +37,9 @@ private:
 	Label* blauwLabel;
 
 	//todo: voeg editboxen en waardes toe die opgeslagen moeten worden
+	EditBox* editBox;
+
+	int achtergrondKleur;
 
 public:
 	OptieScherm( Screen* parent );

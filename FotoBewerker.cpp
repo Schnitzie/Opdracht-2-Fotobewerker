@@ -22,9 +22,6 @@ FotoBewerker::~FotoBewerker()
 }
 
 
-
-
-
 /**
  * Called when a key is pressed.
  */
@@ -38,3 +35,9 @@ void FotoBewerker::keyPressEvent(int keyCode, int nativeCode)
 }
 
 
+/**
+ * Functie om het fotoscherm te laten zien
+ */
+void FotoBewerker::showFotoScherm() {
+	this->fotoScherm->show();
+}
