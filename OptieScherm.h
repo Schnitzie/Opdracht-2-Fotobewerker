@@ -37,6 +37,7 @@ private:
 	Label* blauwLabel;
 
 	EditBox* editNameBox;
+	EditBox* editSizeBox;
 
 	int achtergrondKleur;
 	const BasicString<char> tekst;

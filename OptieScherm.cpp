@@ -52,9 +52,11 @@ OptieScherm::OptieScherm( Screen* parent )
 
 
 	//stel grootte plaatje in m.b.v. editbox
+	this->editSizeBox = new EditBox(20, 80, 200, 40, backgroundLabel);
+	this->editSizeBox->setSkin(skin);
 
 	//stel naam plaatje in m.b.v. editbocx
-	this->editNameBox = new EditBox(180, 80, 60, 40, backgroundLabel);
+	this->editNameBox = new EditBox(20, 130, 200, 40, backgroundLabel);
 	this->editNameBox->setSkin(skin);
 
 	this->setMain(backgroundLabel);
@@ -102,22 +104,46 @@ void OptieScherm::keyPressEvent(int keyCode, int nativeCode)
 void OptieScherm::pointerPressEvent(MAPoint2d point)
 {
 	//doorloop alle kleurlabels om selectie in te stellen
+	Label* selectedKleurLabel = NULL;
+
+	//Point van de MApoint2d maken
+	Point p;
+	p.set(point.x, point.y);
+
 	for(int i = 0; i < this->kleurLabels.size(); i++) {
 		Label* label = this->kleurLabels[i];
-
-		Point p;
-		p.set(point.x, point.y);
-
 		if(label->contains(p)) {
-			label->setSelected(true);
-		}
-		else {
-			label->setSelected(false);
+			//Zet de geselecteerd label op deze label
+			selectedKleurLabel = label;
 		}
 	}
 
+	//Als er een label geselecteerd is
+	//Nodig zodat buiten de kleurlabels klikken er niet voor zorgt dat een geselecteerd gedeselecteerd word
+	if(selectedKleurLabel != NULL) {
+		//Set elke label zoiezo op false
+		for(int i = 0; i < this->kleurLabels.size(); i++) {
+			this->kleurLabels[i]->setSelected(false);
+		}
 
-	//behandel de editbox bij selecteren (touch), verander de editBox naar je eigen editbox(en)
+		//Zet de geselecteerde label op true
+		selectedKleurLabel->setSelected(true);
+	}
 
+	//behandel de editbox bij selecteren (touch)
+	if(this->editNameBox->contains(p)) {
+		this->editNameBox->setSelected(true);
+	}
+	else {
+		this->editNameBox->setSelected(false);
+	}
+
+	//behandel de editbox bij selecteren (touch)
+	if(this->editSizeBox->contains(p)) {
+		this->editSizeBox->setSelected(true);
+	}
+	else {
+		this->editSizeBox->setSelected(false);
+	}
 }
 
