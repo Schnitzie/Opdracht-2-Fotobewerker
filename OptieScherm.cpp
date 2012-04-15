@@ -52,12 +52,16 @@ OptieScherm::OptieScherm( Screen* parent )
 
 
 	//stel grootte plaatje in m.b.v. editbox
-	this->editSizeBox = new EditBox(20, 80, 200, 40, backgroundLabel);
+	this->editSizeBox = new EditBox(20, 80, 200, 40, backgroundLabel, "Grootte Plaatje", 0x000000, font, true, true, 256, EditBox::IM_NUMBERS);
 	this->editSizeBox->setSkin(skin);
+	editSizeBox->setPaddingTop(10);
+	editSizeBox->setPaddingLeft(12);
 
 	//stel naam plaatje in m.b.v. editbocx
-	this->editNameBox = new EditBox(20, 130, 200, 40, backgroundLabel);
+	this->editNameBox = new EditBox(20, 130, 200, 40, backgroundLabel,  "Naam Plaatje", 0x000000, font, true, false, 256, EditBox::IM_STANDARD);
 	this->editNameBox->setSkin(skin);
+	editNameBox->setPaddingTop(10);
+	editNameBox->setPaddingLeft(12);
 
 	this->setMain(backgroundLabel);
 }
@@ -132,6 +136,7 @@ void OptieScherm::pointerPressEvent(MAPoint2d point)
 
 	//behandel de editbox bij selecteren (touch)
 	if(this->editNameBox->contains(p)) {
+		this->editNameBox->setText("");
 		this->editNameBox->setSelected(true);
 	}
 	else {
@@ -140,6 +145,7 @@ void OptieScherm::pointerPressEvent(MAPoint2d point)
 
 	//behandel de editbox bij selecteren (touch)
 	if(this->editSizeBox->contains(p)) {
+		this->editSizeBox->setText("");
 		this->editSizeBox->setSelected(true);
 	}
 	else {
