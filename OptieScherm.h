@@ -39,11 +39,14 @@ private:
 	EditBox* editNameBox;
 	EditBox* editSizeBox;
 
-	int achtergrondKleur;
-	const BasicString<char> tekst;
+	Label* toepassenKnop;
 
-	int imageHoogte;
-	int imageBreedte;
+	Label* selectedKleurLabel;
+
+	int achtergrondKleur;
+	BasicString<char> tekst;
+
+	int imageGrootte;
 
 public:
 	OptieScherm( Screen* parent );
@@ -55,6 +58,7 @@ public:
 	void pointerPressEvent(MAPoint2d point);
 
 	int getAchtergrondOptie();
+	int getImageGrootte();
 	const BasicString<char> getImagetekst(); //geeft text van editbox terug
 };
 

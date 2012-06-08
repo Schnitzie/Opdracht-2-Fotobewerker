@@ -52,7 +52,18 @@ void FotoScherm::show()
 
 	//haal informatie imagetekst op van optiescherm
 	this->imageTekst->setCaption( this->optieScherm->getImagetekst() );
-    this->imageTekst->setCaption("Test Tekst");
+
+	//haal grootte van het plaatje op
+	int imagegrootte = this->optieScherm->getImageGrootte();
+
+	//bepaal grootte van het scherm
+	MAExtent screenSize = maGetScrSize();
+	int scrWidth = EXTENT_X(screenSize);
+	int scrHeight = EXTENT_Y(screenSize);
+
+	this->image->setWidth(imagegrootte);
+	this->image->setHeight(imagegrootte);
+	this->image->setPosition((scrWidth/2) - (imagegrootte/2), (scrHeight/2) - (imagegrootte/2));
 }
 
 

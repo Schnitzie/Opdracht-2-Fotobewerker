@@ -6,11 +6,21 @@
  */
 
 #include "OptieScherm.h"
+#include "Convert.h"
 
 OptieScherm::OptieScherm( Screen* parent )
 {
 	//sla parent scherm op (FotoScherm) om de show() te kunnen aanroepen, zodat dit optiescherm weer gesloten wordt
 	this->parent = parent;
+
+	//Zet geselecteerde label op NULL
+	selectedKleurLabel = NULL;
+
+	//Stel standaard naam van het plaatje in
+	tekst = "Plaatje";
+
+	//Stel standaard groote van het plaatje in
+	imageGrootte = 100;
 
 	//bepaal grootte van het scherm
 	MAExtent screenSize = maGetScrSize();
@@ -63,6 +73,11 @@ OptieScherm::OptieScherm( Screen* parent )
 	editNameBox->setPaddingTop(10);
 	editNameBox->setPaddingLeft(12);
 
+
+	this->toepassenKnop = new Label(20, 270, 200, 40, backgroundLabel, "Toepassen", 0x000000, font);
+	this->toepassenKnop->setSkin(skin);
+	toepassenKnop->setPaddingTop(10);
+	toepassenKnop->setPaddingLeft(12);
 	this->setMain(backgroundLabel);
 }
 
@@ -84,12 +99,37 @@ int OptieScherm::getAchtergrondOptie()
 //geef ingestelde imagetekst van de editbox terug
 const BasicString<char> OptieScherm::getImagetekst()
 {
-	//verander editBox naar jouw editboxs
-	return this->editNameBox->getCaption(); //caption is de text in een editbox
+	return tekst;
+}
+
+int OptieScherm::getImageGrootte() {
+	return imageGrootte;
 }
 
 void OptieScherm::toepassen() {
 
+	//Setten van de achtergrond kleur
+	if(roodLabel == selectedKleurLabel) {
+		this->achtergrondKleur = 0xff0000;
+	}
+	else if(groenLabel == selectedKleurLabel) {
+		this->achtergrondKleur = 0x00ff00;
+	}
+	else if(blauwLabel == selectedKleurLabel) {
+		this->achtergrondKleur = 0x0000ff;
+	}
+
+	//Setten van de naam
+	if(this->editNameBox->getCaption() != "" && this->editNameBox->getCaption() != "Naam Plaatje") {
+		this->tekst = editNameBox->getCaption(); //caption is de text in een editbox
+	}
+
+	//Setten van de grootte
+	if(this->editSizeBox->getCaption() != "" && this->editSizeBox->getCaption() != "Grootte Plaatje") {
+		BasicString<char> groottetekst = this->editSizeBox->getCaption();
+
+		this->imageGrootte = Convert::toInt(groottetekst);
+	}
 }
 
 void OptieScherm::show() {
@@ -107,8 +147,6 @@ void OptieScherm::keyPressEvent(int keyCode, int nativeCode)
 
 void OptieScherm::pointerPressEvent(MAPoint2d point)
 {
-	//doorloop alle kleurlabels om selectie in te stellen
-	Label* selectedKleurLabel = NULL;
 
 	//Point van de MApoint2d maken
 	Point p;
@@ -150,6 +188,11 @@ void OptieScherm::pointerPressEvent(MAPoint2d point)
 	}
 	else {
 		this->editSizeBox->setSelected(false);
+	}
+
+	if(this->toepassenKnop->contains(p)){
+		this->toepassen();
+		this->parent->show();
 	}
 }
 
